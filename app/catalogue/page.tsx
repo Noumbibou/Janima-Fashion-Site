@@ -1,6 +1,6 @@
 import Link from "next/link";
-import { ProductCard } from "../components/ProductCard";
 import { Pagination } from "../components/Pagination";
+import { CatalogueGallery } from "../components/CatalogueGallery";
 import { getDriveProducts } from "../../lib/drive";
 
 export const metadata = {
@@ -62,11 +62,7 @@ export default async function CataloguePage({
             {Math.min(total, startIndex + 1)}–{Math.min(total, startIndex + PAGE_SIZE)} sur {total} créations
           </p>
         </div>
-        <div className="product-grid">
-          {products.map((product) => (
-            <ProductCard key={product.id} product={product} />
-          ))}
-        </div>
+        <CatalogueGallery products={products} />
         <Pagination currentPage={currentPage} totalPages={totalPages} basePath="/catalogue" />
       </section>
     </main>
