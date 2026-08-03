@@ -17,10 +17,11 @@ export function ProductCard({ product }: ProductCardProps) {
       </div>
       <div className="product-details">
         <div>
-          <p className="product-category">{product.category}</p>
           <h2 className="product-name">{product.name}</h2>
         </div>
-        <p className="product-description">{product.description}</p>
+        {product.description ? (
+          <p className="product-description">{product.description}</p>
+        ) : null}
       </div>
     </article>
   );

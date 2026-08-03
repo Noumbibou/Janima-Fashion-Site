@@ -1,13 +1,29 @@
 import Link from "next/link";
 import { ProductCard } from "../components/ProductCard";
-import { products } from "../data/products";
+import { Pagination } from "../components/Pagination";
+import { getDriveProducts } from "../../lib/drive";
 
 export const metadata = {
   title: "Catalogue | Janima Fashion",
   description: "Découvrez les créations de Janima Fashion, styliste à Douala.",
 };
 
-export default function CataloguePage() {
+export default async function CataloguePage({
+  searchParams,
+}: {
+  searchParams: Promise<{ page?: string | string[] }>;
+}) {
+  const params = await searchParams;
+  const allProducts = await getDriveProducts();
+  const PAGE_SIZE = 8;
+  const pageParam = Array.isArray(params.page) ? params.page[0] : params.page;
+  const requestedPage = Number(pageParam) || 1;
+  const currentPage = Math.max(1, requestedPage);
+  const totalPages = Math.max(1, Math.ceil(allProducts.length / PAGE_SIZE));
+  const products = allProducts.slice((currentPage - 1) * PAGE_SIZE, currentPage * PAGE_SIZE);
+  const total = allProducts.length;
+  const startIndex = (currentPage - 1) * PAGE_SIZE;
+
   return (
     <main className="site-shell catalogue-shell">
       <nav className="site-nav" aria-label="Navigation principale">
@@ -42,13 +58,16 @@ export default function CataloguePage() {
           <p className="intro-label" id="collection-title">
             Collection 01
           </p>
-          <p className="catalogue-count">{products.length} créations</p>
+          <p className="catalogue-count">
+            {Math.min(total, startIndex + 1)}–{Math.min(total, startIndex + PAGE_SIZE)} sur {total} créations
+          </p>
         </div>
         <div className="product-grid">
           {products.map((product) => (
             <ProductCard key={product.id} product={product} />
           ))}
         </div>
+        <Pagination currentPage={currentPage} totalPages={totalPages} basePath="/catalogue" />
       </section>
     </main>
   );
