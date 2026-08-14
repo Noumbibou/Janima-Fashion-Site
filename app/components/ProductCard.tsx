@@ -7,9 +7,12 @@ type ProductCardProps = {
 export function ProductCard({ product }: ProductCardProps) {
   return (
     <article className="product-card">
-      <div className="product-image" role="img" aria-label={product.imageAlt}>
-        <img src={product.imageUrl} alt={product.imageAlt} />
-      </div>
+      <div
+        className="product-image"
+        role="img"
+        aria-label={product.imageAlt}
+        style={{ backgroundImage: `url("${product.imageUrl}")` }}
+      />
     </article>
   );
 }

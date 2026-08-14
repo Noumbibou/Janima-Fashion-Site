@@ -107,7 +107,7 @@ export function ProductModal({ product, onClose }: ProductModalProps) {
             {product.category ? (
               <p className="modal-category">{product.category}</p>
             ) : null}
-            <h2 className="modal-name">{product.name}</h2>
+            {product.name ? <h2 className="modal-name">{product.name}</h2> : null}
             {product.description ? (
               <p className="modal-description">{product.description}</p>
             ) : null}
