@@ -193,7 +193,7 @@ h1 span {
 
 .hero-visual {
   background-color: var(--sage);
-  background-image: linear-gradient(145deg, rgba(32, 27, 22, 0.05), rgba(32, 27, 22, 0.55)), url("https://images.unsplash.com/photo-1539109136881-3be0616acf4b?auto=format&fit=crop&w=1200&q=85");
+  background-image: linear-gradient(145deg, rgba(32, 27, 22, 0.05), rgba(32, 27, 22, 0.55)), url("/mum.jpeg");
   background-position: center;
   background-size: cover;
   animation: reveal-visual 1000ms 220ms ease-out both;
