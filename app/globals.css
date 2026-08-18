@@ -60,19 +60,13 @@ a {
 
 .brand-symbol,
 .visual-stamp {
-  align-items: center;
-  background: var(--terracotta);
+  background: var(--paper);
   border-radius: 50%;
-  color: var(--paper);
-  display: inline-flex;
-  font-family: var(--font-display), serif;
-  justify-content: center;
+  object-fit: cover;
 }
 
 .brand-symbol {
-  font-size: 1.3rem;
   height: 2.1rem;
-  letter-spacing: 0;
   width: 2.1rem;
 }
 
@@ -223,7 +217,7 @@ h1 span {
 }
 
 .visual-stamp {
-  font-size: 2.2rem;
+  box-shadow: 0 0.4rem 1.2rem rgba(32, 27, 22, 0.35);
   height: 4.5rem;
   position: absolute;
   right: 1.25rem;

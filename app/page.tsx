@@ -5,7 +5,7 @@ export default function Home() {
     <main className="site-shell">
       <nav className="site-nav" aria-label="Navigation principale">
         <Link className="brand-mark" href="/" aria-label="Janima Fashion, accueil">
-          <span className="brand-symbol">J</span>
+          <img className="brand-symbol" src="/logo-fashion.jpeg" alt="" />
           <span>Janima Fashion</span>
         </Link>
         <div className="nav-links">
@@ -46,7 +46,7 @@ export default function Home() {
             <span>Collection 01</span>
             <span>Éclat brut</span>
           </div>
-          <div className="visual-stamp">J</div>
+          <img className="visual-stamp" src="/logo-fashion.jpeg" alt="Janima Fashion" />
         </div>
       </section>
 
