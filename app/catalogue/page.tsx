@@ -28,7 +28,7 @@ export default async function CataloguePage({
     <main className="site-shell catalogue-shell">
       <nav className="site-nav" aria-label="Navigation principale">
         <Link className="brand-mark" href="/" aria-label="Janima Fashion, accueil">
-          <img className="brand-symbol" src="/logo-fashion.jpeg" alt="" />
+          <img className="brand-symbol" src="/logo-final.jpeg" alt="" />
           <span>Janima Fashion</span>
         </Link>
         <div className="nav-links">
