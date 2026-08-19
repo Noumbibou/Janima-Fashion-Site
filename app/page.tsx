@@ -14,7 +14,7 @@ export default async function Home() {
     {
       src: "/mum.jpeg",
       alt: "Silhouette habillée d'une création Janima Fashion",
-      heading: "Collection 01 — Éclat brut",
+      heading: "L'élégance qui porte votre histoire",
     },
     {
       src: "/basson.jpeg",

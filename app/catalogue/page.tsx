@@ -44,6 +44,15 @@ export default async function CataloguePage({
         </Link>
       </nav>
 
+      <div className="catalogue-video-slot">
+        <div className="catalogue-video-slot-badge">
+          <span className="catalogue-video-slot-icon" aria-hidden="true">
+            ▶
+          </span>
+          Vidéo à venir
+        </div>
+      </div>
+
       <header className="catalogue-header">
         <p className="eyebrow">Janima Fashion · Douala, Cameroun</p>
         <h1>Les pièces de la collection.</h1>
