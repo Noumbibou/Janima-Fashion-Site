@@ -11,13 +11,13 @@ export const metadata = {
 const PAGE_SIZE = 8;
 
 const TABS = {
-  collection: {
-    label: "Collection 01",
-    folderId: () => process.env.GOOGLE_DRIVE_FOLDER_ID,
-  },
   tenues: {
     label: "Tenues scolaires",
     folderId: () => process.env.GOOGLE_DRIVE_FOLDER_TENUE,
+  },
+  collection: {
+    label: "Collection 01",
+    folderId: () => process.env.GOOGLE_DRIVE_FOLDER_ID,
   },
 } as const;
 
@@ -30,7 +30,7 @@ export default async function CataloguePage({
 }) {
   const params = await searchParams;
   const catParam = Array.isArray(params.cat) ? params.cat[0] : params.cat;
-  const activeTab: TabKey = catParam === "tenues" ? "tenues" : "collection";
+  const activeTab: TabKey = catParam === "collection" ? "collection" : "tenues";
 
   const allProducts = await getDriveProducts(TABS[activeTab].folderId());
 
