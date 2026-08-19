@@ -1,29 +1,34 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import Link from "next/link";
+import { useEffect, useRef, useState } from "react";
 
 export type HeroSlide = {
   src: string;
   alt: string;
-  eyebrow: string;
-  title: string;
+  heading: string;
 };
 
 type HeroCarouselProps = {
   slides: HeroSlide[];
+  eyebrow: string;
+  ctaLabel: string;
+  ctaHref: string;
 };
 
 const AUTOPLAY_MS = 5500;
+const SWIPE_THRESHOLD = 40;
 
 function isRemote(src: string) {
   return src.startsWith("http://") || src.startsWith("https://");
 }
 
-export function HeroCarousel({ slides }: HeroCarouselProps) {
+export function HeroCarousel({ slides, eyebrow, ctaLabel, ctaHref }: HeroCarouselProps) {
   const [index, setIndex] = useState(0);
   const [paused, setPaused] = useState(false);
   const [brokenSrcs, setBrokenSrcs] = useState<Set<string>>(new Set());
   const [mounted, setMounted] = useState(false);
+  const touchStartX = useRef<number | null>(null);
 
   useEffect(() => {
     setMounted(true);
@@ -48,16 +53,35 @@ export function HeroCarousel({ slides }: HeroCarouselProps) {
   const markBroken = (src: string) =>
     setBrokenSrcs((current) => new Set(current).add(src));
 
+  const handlePointerEnter = (e: React.PointerEvent) => {
+    if (e.pointerType === "mouse") setPaused(true);
+  };
+  const handlePointerLeave = (e: React.PointerEvent) => {
+    if (e.pointerType === "mouse") setPaused(false);
+  };
+  const handleTouchStart = (e: React.TouchEvent) => {
+    touchStartX.current = e.touches[0].clientX;
+  };
+  const handleTouchEnd = (e: React.TouchEvent) => {
+    if (touchStartX.current === null) return;
+    const delta = e.changedTouches[0].clientX - touchStartX.current;
+    touchStartX.current = null;
+    if (Math.abs(delta) < SWIPE_THRESHOLD) return;
+    goTo(delta < 0 ? index + 1 : index - 1);
+  };
+
   return (
     <div
-      className="hero-visual"
+      className="hero-carousel"
       role="region"
       aria-roledescription="carrousel"
       aria-label="Créations Janima Fashion"
-      onMouseEnter={() => setPaused(true)}
-      onMouseLeave={() => setPaused(false)}
+      onPointerEnter={handlePointerEnter}
+      onPointerLeave={handlePointerLeave}
       onFocus={() => setPaused(true)}
       onBlur={() => setPaused(false)}
+      onTouchStart={handleTouchStart}
+      onTouchEnd={handleTouchEnd}
     >
       {visibleSlides.map((slide, i) => {
         const ready = mounted || !isRemote(slide.src);
@@ -73,7 +97,17 @@ export function HeroCarousel({ slides }: HeroCarouselProps) {
         );
       })}
 
-      <img className="visual-stamp" src="/logo-final.jpeg" alt="Janima Fashion" />
+      <div className="hero-overlay-copy">
+        <p className="hero-overlay-eyebrow">
+          <span className="hero-overlay-dash" aria-hidden="true" />
+          {eyebrow}
+          <span className="hero-overlay-dash" aria-hidden="true" />
+        </p>
+        <h1 className="hero-overlay-title">{active.heading}</h1>
+        <Link className="hero-overlay-cta" href={ctaHref}>
+          {ctaLabel}
+        </Link>
+      </div>
 
       {count > 1 ? (
         <div className="hero-carousel-controls">
@@ -95,11 +129,6 @@ export function HeroCarousel({ slides }: HeroCarouselProps) {
           </button>
         </div>
       ) : null}
-
-      <div className="visual-caption">
-        <span>{active.eyebrow}</span>
-        <span>{active.title}</span>
-      </div>
 
       {count > 1 ? (
         <div className="hero-carousel-dots" role="tablist" aria-label="Choisir une image">
