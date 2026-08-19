@@ -1,6 +1,32 @@
 import Link from "next/link";
+import { HeroCarousel, type HeroSlide } from "./components/HeroCarousel";
+import { getDriveProducts } from "../lib/drive";
 
-export default function Home() {
+export default async function Home() {
+  const driveProducts = await getDriveProducts();
+  const driveSlides: HeroSlide[] = driveProducts.slice(0, 2).map((product) => ({
+    src: product.imageUrl,
+    alt: product.imageAlt,
+    eyebrow: "Collection 01",
+    title: product.name || "Création exclusive",
+  }));
+
+  const slides: HeroSlide[] = [
+    {
+      src: "/mum.jpeg",
+      alt: "Silhouette habillée d'une création Janima Fashion",
+      eyebrow: "Collection 01",
+      title: "Éclat brut",
+    },
+    {
+      src: "/basson.jpeg",
+      alt: "Tenues scolaires Les Bassons par Janima Fashion",
+      eyebrow: "Tenues scolaires",
+      title: "Les Bassons",
+    },
+    ...driveSlides,
+  ];
+
   return (
     <main className="site-shell">
       <nav className="site-nav" aria-label="Navigation principale">
@@ -37,17 +63,7 @@ export default function Home() {
           </a>
         </div>
 
-        <div
-          className="hero-visual"
-          role="img"
-          aria-label="Silhouette habillée d'une création Janima Fashion"
-        >
-          <div className="visual-caption">
-            <span>Collection 01</span>
-            <span>Éclat brut</span>
-          </div>
-          <img className="visual-stamp" src="/logo-final.jpeg" alt="Janima Fashion" />
-        </div>
+        <HeroCarousel slides={slides} />
       </section>
 
       <section
