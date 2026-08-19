@@ -8,21 +8,38 @@ export const metadata = {
   description: "Découvrez les créations de Janima Fashion, styliste à Douala.",
 };
 
+const PAGE_SIZE = 8;
+
+const TABS = {
+  collection: {
+    label: "Collection 01",
+    folderId: () => process.env.GOOGLE_DRIVE_FOLDER_ID,
+  },
+  tenues: {
+    label: "Tenues scolaires",
+    folderId: () => process.env.GOOGLE_DRIVE_FOLDER_TENUE,
+  },
+} as const;
+
+type TabKey = keyof typeof TABS;
+
 export default async function CataloguePage({
   searchParams,
 }: {
-  searchParams: Promise<{ page?: string | string[] }>;
+  searchParams: Promise<{ page?: string | string[]; cat?: string | string[] }>;
 }) {
   const params = await searchParams;
-  const allProducts = await getDriveProducts();
-  const PAGE_SIZE = 8;
+  const catParam = Array.isArray(params.cat) ? params.cat[0] : params.cat;
+  const activeTab: TabKey = catParam === "tenues" ? "tenues" : "collection";
+
+  const allProducts = await getDriveProducts(TABS[activeTab].folderId());
+
   const pageParam = Array.isArray(params.page) ? params.page[0] : params.page;
-  const requestedPage = Number(pageParam) || 1;
-  const currentPage = Math.max(1, requestedPage);
+  const currentPage = Math.max(1, Number(pageParam) || 1);
   const totalPages = Math.max(1, Math.ceil(allProducts.length / PAGE_SIZE));
-  const products = allProducts.slice((currentPage - 1) * PAGE_SIZE, currentPage * PAGE_SIZE);
-  const total = allProducts.length;
   const startIndex = (currentPage - 1) * PAGE_SIZE;
+  const products = allProducts.slice(startIndex, startIndex + PAGE_SIZE);
+  const total = allProducts.length;
 
   return (
     <main className="site-shell catalogue-shell">
@@ -64,15 +81,35 @@ export default async function CataloguePage({
 
       <section aria-labelledby="collection-title">
         <div className="catalogue-section-heading">
-          <p className="intro-label" id="collection-title">
-            Collection 01
-          </p>
+          <div className="catalogue-tabs" role="tablist" aria-label="Catalogues">
+            {(Object.keys(TABS) as TabKey[]).map((key) => (
+              <Link
+                key={key}
+                href={`/catalogue?cat=${key}`}
+                scroll={false}
+                className={`catalogue-tab${key === activeTab ? " catalogue-tab-active" : ""}`}
+                role="tab"
+                aria-selected={key === activeTab}
+                id={key === activeTab ? "collection-title" : undefined}
+              >
+                {TABS[key].label}
+              </Link>
+            ))}
+          </div>
           <p className="catalogue-count">
-            {Math.min(total, startIndex + 1)}–{Math.min(total, startIndex + PAGE_SIZE)} sur {total} créations
+            {total === 0
+              ? "Aucune création"
+              : `${Math.min(total, startIndex + 1)}–${Math.min(total, startIndex + PAGE_SIZE)} sur ${total} créations`}
           </p>
         </div>
         <CatalogueGallery products={products} />
-        <Pagination currentPage={currentPage} totalPages={totalPages} basePath="/catalogue" />
+        <Pagination
+          currentPage={currentPage}
+          totalPages={totalPages}
+          basePath="/catalogue"
+          pageParam="page"
+          extraParams={{ cat: activeTab }}
+        />
       </section>
     </main>
   );

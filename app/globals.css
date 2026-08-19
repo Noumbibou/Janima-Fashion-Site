@@ -421,15 +421,36 @@ h1 {
   padding-bottom: 1.25rem;
 }
 
-.catalogue-section-heading .intro-label,
-.catalogue-count {
-  margin: 0;
+.catalogue-tabs {
+  display: flex;
+  gap: 1.75rem;
+}
+
+.catalogue-tab {
+  border-bottom: 2px solid transparent;
+  color: rgba(18, 18, 18, 0.42);
+  font-size: 0.72rem;
+  font-weight: 700;
+  letter-spacing: 0.13em;
+  padding-bottom: 0.6rem;
+  text-transform: uppercase;
+  transition: color 200ms ease, border-color 200ms ease;
+}
+
+.catalogue-tab:hover {
+  color: var(--terracotta);
+}
+
+.catalogue-tab-active {
+  border-color: var(--terracotta);
+  color: var(--terracotta);
 }
 
 .catalogue-count {
   color: rgba(18, 18, 18, 0.5);
   font-size: 0.68rem;
   letter-spacing: 0.13em;
+  margin: 0;
   text-transform: uppercase;
 }
 
@@ -544,28 +565,6 @@ h1 {
 
 .product-card:nth-child(3) .product-image {
   background-position: center 20%;
-}
-
-.product-number {
-  align-items: center;
-  background: var(--paper);
-  border-radius: 50%;
-  display: inline-flex;
-  font-family: var(--font-display), serif;
-  font-size: 1.2rem;
-  height: 3rem;
-  justify-content: center;
-  margin: 1rem;
-  position: relative;
-  transition: background 250ms ease, color 250ms ease, transform 350ms ease;
-  width: 3rem;
-  z-index: 2;
-}
-
-.product-image:hover .product-number {
-  background: var(--terracotta);
-  color: var(--paper);
-  transform: rotate(8deg);
 }
 
 .product-view-cue {

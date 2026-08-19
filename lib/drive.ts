@@ -14,9 +14,10 @@ export function driveImageUrl(fileId: string, width = 900) {
   return `https://drive.google.com/thumbnail?id=${fileId}&sz=w${width}`;
 }
 
-export async function getDriveProducts(): Promise<Product[]> {
+export async function getDriveProducts(
+  folderId = process.env.GOOGLE_DRIVE_FOLDER_ID
+): Promise<Product[]> {
   const apiKey = process.env.GOOGLE_DRIVE_API_KEY;
-  const folderId = process.env.GOOGLE_DRIVE_FOLDER_ID;
 
   if (!apiKey || !folderId) {
     console.error("Google Drive API key or folder ID is missing.");

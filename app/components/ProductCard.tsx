@@ -13,7 +13,6 @@ export function ProductCard({ product }: ProductCardProps) {
         aria-label={product.imageAlt}
         style={{ backgroundImage: `url("${product.imageUrl}")` }}
       >
-        <span className="product-number">{product.id}</span>
         <span className="product-view-cue" aria-hidden="true">
           Voir la pièce
         </span>
