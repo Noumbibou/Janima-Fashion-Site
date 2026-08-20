@@ -52,6 +52,9 @@ export default async function CataloguePage({
           <Link className="nav-link" href="/">
             L&apos;atelier
           </Link>
+          <Link className="nav-link" href="/portfolio">
+            Portfolio
+          </Link>
           <Link className="nav-link nav-link-active" href="/catalogue">
             Le catalogue
           </Link>

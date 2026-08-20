@@ -7,13 +7,13 @@ export type HeroSlide = {
   src: string;
   alt: string;
   heading: string;
+  ctaLabel: string;
+  ctaHref: string;
 };
 
 type HeroCarouselProps = {
   slides: HeroSlide[];
   eyebrow: string;
-  ctaLabel: string;
-  ctaHref: string;
 };
 
 const AUTOPLAY_MS = 5500;
@@ -23,7 +23,7 @@ function isRemote(src: string) {
   return src.startsWith("http://") || src.startsWith("https://");
 }
 
-export function HeroCarousel({ slides, eyebrow, ctaLabel, ctaHref }: HeroCarouselProps) {
+export function HeroCarousel({ slides, eyebrow }: HeroCarouselProps) {
   const [index, setIndex] = useState(0);
   const [paused, setPaused] = useState(false);
   const [brokenSrcs, setBrokenSrcs] = useState<Set<string>>(new Set());
@@ -85,27 +85,37 @@ export function HeroCarousel({ slides, eyebrow, ctaLabel, ctaHref }: HeroCarouse
     >
       {visibleSlides.map((slide, i) => {
         const ready = mounted || !isRemote(slide.src);
+        const isActive = i === safeIndex;
         return (
-          <img
+          <div
             key={slide.src}
-            src={ready ? slide.src : undefined}
-            alt={slide.alt}
-            className={`hero-slide${i === safeIndex ? " hero-slide-active" : ""}`}
-            aria-hidden={i === safeIndex ? undefined : true}
-            onError={() => markBroken(slide.src)}
-          />
+            className={`hero-slide-frame${isActive ? " hero-slide-frame-active" : ""}`}
+          >
+            <div
+              className="hero-slide-backdrop"
+              aria-hidden="true"
+              style={ready ? { backgroundImage: `url("${slide.src}")` } : undefined}
+            />
+            <img
+              src={ready ? slide.src : undefined}
+              alt={slide.alt}
+              className="hero-slide"
+              aria-hidden={isActive ? undefined : true}
+              onError={() => markBroken(slide.src)}
+            />
+          </div>
         );
       })}
 
-      <div className="hero-overlay-copy">
+      <div className="hero-overlay-copy" key={active.src}>
         <p className="hero-overlay-eyebrow">
           <span className="hero-overlay-dash" aria-hidden="true" />
           {eyebrow}
           <span className="hero-overlay-dash" aria-hidden="true" />
         </p>
         <h1 className="hero-overlay-title">{active.heading}</h1>
-        <Link className="hero-overlay-cta" href={ctaHref}>
-          {ctaLabel}
+        <Link className="hero-overlay-cta" href={active.ctaHref}>
+          {active.ctaLabel}
         </Link>
       </div>
 

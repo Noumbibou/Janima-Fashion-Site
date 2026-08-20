@@ -8,6 +8,8 @@ export default async function Home() {
     src: product.imageUrl,
     alt: product.imageAlt,
     heading: `Collection 01 — ${product.name || "Création exclusive"}`,
+    ctaLabel: "Découvrir la collection",
+    ctaHref: "/catalogue?cat=collection",
   }));
 
   const slides: HeroSlide[] = [
@@ -15,11 +17,15 @@ export default async function Home() {
       src: "/mum.jpeg",
       alt: "Silhouette habillée d'une création Janima Fashion",
       heading: "L'élégance qui porte votre histoire",
+      ctaLabel: "Voir le portfolio",
+      ctaHref: "/portfolio",
     },
     {
       src: "/basson.jpeg",
       alt: "Tenues scolaires Les Bassons par Janima Fashion",
       heading: "Tenues scolaires — Les Bassons",
+      ctaLabel: "Voir les tenues scolaires",
+      ctaHref: "/catalogue?cat=tenues",
     },
     ...driveSlides,
   ];
@@ -36,6 +42,9 @@ export default async function Home() {
             <Link className="nav-link nav-link-active" href="/">
               L&apos;atelier
             </Link>
+            <Link className="nav-link" href="/portfolio">
+              Portfolio
+            </Link>
             <a className="nav-link" href="/catalogue">
               Le catalogue
             </a>
@@ -45,12 +54,7 @@ export default async function Home() {
           </a>
         </nav>
 
-        <HeroCarousel
-          slides={slides}
-          eyebrow="Janima Fashion · Douala, Cameroun"
-          ctaLabel="Découvrir les créations"
-          ctaHref="/catalogue"
-        />
+        <HeroCarousel slides={slides} eyebrow="Janima Fashion · Douala, Cameroun" />
       </div>
 
       <section
