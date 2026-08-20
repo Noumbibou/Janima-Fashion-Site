@@ -4,7 +4,7 @@ import { getDriveProducts } from "../../lib/drive";
 export const metadata = {
   title: "Portfolio | Janima Fashion",
   description:
-    "Le portfolio de Janima Fashion : silhouettes, savoir-faire et réalisations à Douala.",
+    "Le portfolio de Janima Fashion : silhouettes, savoir-faire et réalisations",
 };
 
 export default async function PortfolioPage() {

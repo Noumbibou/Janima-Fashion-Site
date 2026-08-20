@@ -74,7 +74,6 @@ export default async function CataloguePage({
       </div>
 
       <header className="catalogue-header">
-        <p className="eyebrow">Janima Fashion · Douala, Cameroun</p>
         <h1>Les pièces de la collection.</h1>
         <p className="catalogue-intro">
           Des silhouettes pensées avec caractère, entre gestes traditionnels et

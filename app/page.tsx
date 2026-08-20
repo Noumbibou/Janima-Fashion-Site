@@ -4,7 +4,17 @@ import { getDriveProducts } from "../lib/drive";
 
 export default async function Home() {
   const driveProducts = await getDriveProducts();
-  const driveSlides: HeroSlide[] = driveProducts.slice(0, 2).map((product) => ({
+  const womenDressId = "10S9xf-7HzAicgSlm5B3rR-seOYhxflXz";
+  const womenDress = driveProducts.find((product) =>
+    product.imageUrl.includes(womenDressId)
+  );
+  const otherDriveProducts = driveProducts.filter(
+    (product) => product !== womenDress
+  );
+  const driveShowcase = [womenDress, otherDriveProducts[0]].filter(
+    (product): product is (typeof driveProducts)[number] => Boolean(product)
+  );
+  const driveSlides: HeroSlide[] = driveShowcase.map((product) => ({
     src: product.imageUrl,
     alt: product.imageAlt,
     heading: `Collection 01 — ${product.name || "Création exclusive"}`,
@@ -23,7 +33,7 @@ export default async function Home() {
     {
       src: "/basson.jpeg",
       alt: "Tenues scolaires Les Bassons par Janima Fashion",
-      heading: "Tenues scolaires — Les Bassons",
+      heading: "Tenues scolaires",
       ctaLabel: "Voir les tenues scolaires",
       ctaHref: "/catalogue?cat=tenues",
     },
@@ -54,7 +64,7 @@ export default async function Home() {
           </a>
         </nav>
 
-        <HeroCarousel slides={slides} eyebrow="Janima Fashion · Douala, Cameroun" />
+        <HeroCarousel slides={slides} />
       </div>
 
       <section

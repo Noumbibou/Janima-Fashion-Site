@@ -17,7 +17,6 @@ export function ProductCard({ product }: ProductCardProps) {
           Voir la pièce
         </span>
       </div>
-      {product.name ? <p className="product-name">{product.name}</p> : null}
     </article>
   );
 }

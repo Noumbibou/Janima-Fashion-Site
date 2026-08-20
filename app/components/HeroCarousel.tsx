@@ -13,7 +13,7 @@ export type HeroSlide = {
 
 type HeroCarouselProps = {
   slides: HeroSlide[];
-  eyebrow: string;
+  eyebrow?: string;
 };
 
 const AUTOPLAY_MS = 5500;
@@ -108,11 +108,13 @@ export function HeroCarousel({ slides, eyebrow }: HeroCarouselProps) {
       })}
 
       <div className="hero-overlay-copy" key={active.src}>
-        <p className="hero-overlay-eyebrow">
-          <span className="hero-overlay-dash" aria-hidden="true" />
-          {eyebrow}
-          <span className="hero-overlay-dash" aria-hidden="true" />
-        </p>
+        {eyebrow ? (
+          <p className="hero-overlay-eyebrow">
+            <span className="hero-overlay-dash" aria-hidden="true" />
+            {eyebrow}
+            <span className="hero-overlay-dash" aria-hidden="true" />
+          </p>
+        ) : null}
         <h1 className="hero-overlay-title">{active.heading}</h1>
         <Link className="hero-overlay-cta" href={active.ctaHref}>
           {active.ctaLabel}
